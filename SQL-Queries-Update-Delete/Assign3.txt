@@ -1,0 +1,116 @@
+SELECT MIN(Target) AS "MINIMUM_TARGET", MAX(Target) AS "MAXIMUM_TARGET"
+FROM Offices;
+
+SELECT COUNT(Order_Date) AS "NUMBER_OF_ORDERS"
+FROM Orders
+WHERE Order_Date LIKE '%22';
+
+SELECT COUNT(DISTINCT Title) AS "NUM_TITLES"
+FROM Salesreps;
+
+SELECT AVG(Sales) AS "AVG_SALES"
+FROM Salesreps
+WHERE Rep_Office = 22;
+
+SELECT Rep_Office, AVG(Sales) AS "AVG_SALES"
+FROM Salesreps
+WHERE Rep_Office IS NOT NULL
+GROUP BY Rep_Office;
+
+SELECT Rep, MIN(Amount) AS "MIN_AMOUNT", MAX(Amount) AS "MAX_AMOUNT", AVG(Amount) AS "AVG_AMOUNT"
+FROM Orders
+WHERE (Order_Date LIKE '%20' OR Order_date LIKE '%21') 
+HAVING COUNT(Rep) > 1
+GROUP BY Rep
+ORDER BY Rep;
+
+SELECT Cust_Num, Company, Credit_Limit
+FROM Customers
+WHERE Credit_Limit < ANY 
+(SELECT Amount
+FROM Orders
+WHERE Cust_Num = Cust);
+
+SELECT Cust_Num, Cust_Rep, Credit_Limit
+FROM Customers
+WHERE Credit_Limit > ALL 
+(SELECT Credit_Limit
+FROM Customers
+WHERE Cust_Rep = 109);
+
+SELECT Cust_Num, Cust_Rep, Credit_Limit
+FROM Customers
+WHERE Credit_Limit >  
+(SELECT MAX(Credit_Limit)
+FROM Customers
+WHERE Cust_Rep = 109);
+
+SELECT DISTINCT Rep
+FROM Orders
+WHERE Cust IN (SELECT Cust_Num
+FROM Customers
+WHERE Company LIKE 'Z%' OR Company LIKE 'J%');
+
+SELECT Empl_Num, Name
+FROM Salesreps
+WHERE Empl_num = ANY
+(SELECT Cust_Rep
+FROM Customers
+WHERE Credit_Limit > 600000);
+
+SELECT Empl_Num, Name
+FROM Salesreps
+WHERE EXISTS 
+(SELECT Order_Date
+FROM Orders
+WHERE Order_Date = Hire_Date);
+
+SELECT Product_Id
+FROM Products
+WHERE NOT EXISTS
+(SELECT Product
+FROM Orders
+WHERE Product_Id = Product);
+
+INSERT INTO Offices(Office, City, Region, Mgr, Sales)
+VALUES(10, 'Miami', 'Southern', 106, 0);
+
+DELETE FROM Offices
+WHERE Office = 10;
+
+INSERT INTO Salesreps
+VALUES(772, 'Carter Rath', NULL, NULL, NULL, '21-APR-22', NULL, NULL, 0);
+
+DELETE FROM Salesreps
+WHERE Empl_Num = 772;
+
+DELETE FROM Orders
+WHERE Rep = (SELECT Empl_Num
+FROM Salesreps
+WHERE Name = 'Dan Roberts');
+
+UPDATE Products
+SET Price = 0.9 * Price
+WHERE Price > 
+(Select AVG(Price)
+FROM Products);
+
+UPDATE Salesreps
+SET Quota = (SELECT AVG(Quota) + 1500
+FROM Salesreps)
+WHERE Hire_Date LIKE '%21';
+
+UPDATE Customers
+SET Credit_Limit = 1.25 * Credit_Limit
+WHERE 3 <= 
+(SELECT Count(*)
+FROM Orders
+WHERE Cust = Cust_Num AND Amount > 25000);
+
+UPDATE Customers
+SET Credit_Limit = (SELECT MAX(Amount) + 1000
+FROM Orders
+WHERE Cust_Num = Cust)
+WHERE Credit_Limit < ANY (SELECT Amount
+FROM Orders
+WHERE Cust_Num = Cust);

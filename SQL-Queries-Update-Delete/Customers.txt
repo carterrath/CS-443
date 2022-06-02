@@ -1,0 +1,28 @@
+drop table customers;
+CREATE TABLE CUSTOMERS
+(CUST_NUM NUMBER(4,0) PRIMARY KEY,
+COMPANY VARCHAR(20) NOT NULL,
+CUST_REP NUMBER(3,0),
+CREDIT_LIMIT NUMBER(10,2)
+);
+insert into customers values(2110,'JJCP Inc.',103,500000);
+insert into customers values(2111,'First Corp.',101,650000);
+insert into customers values(2112,'Acme Mfg.',105,500000);
+insert into customers values(2123,'Carter and Sons',102,400000);
+insert into customers values(2124,'Ace International',110,350000);
+insert into customers values(2125,'Smithson Corp.',101,200000);
+insert into customers values(2126,'JJones Mfg.',106,650000);
+insert into customers values(2136,'Zetacorp',108,500000);
+insert into customers values(2137,'QMA Assoc.',103,450000);
+insert into customers values(2138,'Orion Corp.',102,200000);
+insert into customers values(2139,'Peter Brothers',107,40000);
+insert into customers values(2140,'Holm and Landis',109,550000);
+insert into customers values(2150, 'J.P.C. Sinclair',106,350000);
+insert into customers values(2155,'Three-Way Lines',105,300000);
+insert into customers values(2165,'Rico Enterprises',102,500000);
+insert into customers values(2170,'Fredrick Lewis Corp.',102,650000);
+insert into customers values(2171,'Jose Inc.',109,250000);
+insert into customers values(2174,'Midwest Systems',108,600000);
+insert into customers values(2175,'Iane and Schmidt',104,200000);
+insert into customers values(2189,'Chena Associates',103,250000);
+insert into customers values(2199,'AAAA Products',101,450000);
